@@ -1,5 +1,7 @@
 package com.capgemini.employeepayrollapp.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,38 +17,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
+import com.capgemini.employeepayrollapp.dto.ResponseDTO;
 import com.capgemini.employeepayrollapp.exceptions.EmployeeException;
 import com.capgemini.employeepayrollapp.model.Employee;
 import com.capgemini.employeepayrollapp.services.IEmployeeService;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("/employee")
 public class EmployeePayrollController {
 	@Autowired
-	IEmployeeService empService;
-	@GetMapping("/")
-	public ResponseEntity<String> getEmployeeData(){
-		return new ResponseEntity<String>("Get call success",HttpStatus.OK);
+	private IEmployeeService empService;
+	@GetMapping(value={"/get", "/", ""})
+	public ResponseEntity<ResponseDTO> getAllEmployeeData(){
+		List<Employee> empList = empService.getEmployees();
+		ResponseDTO respDTO = new ResponseDTO("Details of all Employees :", empList);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@GetMapping("/get/{empId}")
-	public ResponseEntity<Employee> getEmployeeDataById(@PathVariable("empId") Long empId) throws EmployeeException{
-		Employee emp = empService.getEmployeeById(empId);
-		return new ResponseEntity<Employee>(emp,HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> getEmployeeDataById(@PathVariable("empId") int empId) throws EmployeeException{
+		Employee employee = empService.getEmployeeById(empId);
+		ResponseDTO respDTO = new ResponseDTO("Employee Details of employee with Id : "+ empId, employee);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@PostMapping("/create")
-	public ResponseEntity<Employee> addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO){
-		Employee emp = empService.addEmployee(employeeDTO);
-		return new ResponseEntity<>(emp, HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO) throws EmployeeException{
+		Employee employee = empService.addEmployee(employeeDTO);
+		ResponseDTO respDTO = new ResponseDTO("Added Employee", employee);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@PutMapping("/update/{empId}")
-	public ResponseEntity<Void> updateEmployee(@PathVariable("empId") Long empId, @RequestBody EmployeePayrollDTO employeeDTO) throws EmployeeException{
-		empService.updateEmployeeById(empId, employeeDTO);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> updateEmployee(@PathVariable("empId") int empId, @RequestBody EmployeePayrollDTO employeeDTO) throws EmployeeException{
+		Employee employee = empService.updateEmployeeById(empId, employeeDTO);
+		ResponseDTO respDTO = new ResponseDTO("Updated Employee ", employee);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@DeleteMapping("/delete/{empId}")
-	public ResponseEntity<String> deleteEmployeeById(@PathVariable("empId") Long empId){
+	public ResponseEntity<ResponseDTO> deleteEmployeeById(@PathVariable("empId") int empId) throws EmployeeException{
 		empService.deleteEmployeeById(empId);
-		return new ResponseEntity<String>("Deleted the employee with id : "+empId, HttpStatus.OK);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Successfully", empId);
+		return new ResponseEntity<>(respDTO, HttpStatus.OK);
 	}
 }
 

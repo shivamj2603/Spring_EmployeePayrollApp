@@ -11,21 +11,20 @@ import com.capgemini.employeepayrollapp.dto.EmployeePayrollDTO;
 @Table(name = "employee_payroll")
 public class Employee {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
-	public String name;
-	public long salary;
+	private int id;
+	private String name;
+	private double salary;
 	public Employee(){
-		
 	}
-	public Employee(EmployeePayrollDTO employeeDTO) {
-		this.name = employeeDTO.name;
-		this.salary = employeeDTO.salary;
+	public Employee(int id, EmployeePayrollDTO employeeDTO) {
+		this.id = id;
+		this.name = employeeDTO.getName();
+		this.salary = employeeDTO.getSalary();
 	}
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -34,10 +33,10 @@ public class Employee {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getSalary() {
+	public double getSalary() {
 		return salary;
 	}
-	public void setSalary(long salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
 	@Override
