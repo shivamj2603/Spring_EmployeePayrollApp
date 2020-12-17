@@ -42,7 +42,8 @@ public class EmployeeServiceIMPL implements IEmployeeService{
 	}
 	@Override
 	public void deleteEmployeeById(int id) throws EmployeeException {
-		employeeRepository.findById(id).orElseThrow(() -> new EmployeeException("Employee to be deleted not found"));
+		employeeRepository.findById(id)
+		                   .orElseThrow(() -> new EmployeeException("Employee to be deleted not found"));
 		employeeRepository.deleteById(id);
 	}
 }

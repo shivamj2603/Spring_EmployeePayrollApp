@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.capgemini.employeepayrollapp.dto.ResponseDTO;
 import com.capgemini.employeepayrollapp.exceptions.EmployeeException;
 import com.capgemini.employeepayrollapp.model.Employee;
 import com.capgemini.employeepayrollapp.services.IEmployeeService;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/employee")
 public class EmployeePayrollController {
