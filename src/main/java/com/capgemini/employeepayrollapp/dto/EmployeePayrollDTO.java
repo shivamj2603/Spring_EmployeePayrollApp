@@ -25,8 +25,6 @@ public @Data class EmployeePayrollDTO {
 	private LocalDate startDate;
 	@NotBlank(message = "Note cannot be blank")
 	private String note;
-	@NotBlank(message = "Profile Pic cannot be blank")
-	private String profilePic;
 	@NotNull(message = "Department should not be empty")
 	private List<String> department;
 }

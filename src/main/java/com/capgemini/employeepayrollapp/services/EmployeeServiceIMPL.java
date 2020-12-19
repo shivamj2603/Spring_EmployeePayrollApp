@@ -21,8 +21,10 @@ public class EmployeeServiceIMPL implements IEmployeeService{
    }
 	@Override
 	public Employee addEmployee(EmployeePayrollDTO employeeDTO) throws EmployeeException{
+		int newId = 0;
 		int count = (int) employeeRepository.count();
-		int newId = this.getEmployees().get(count - 1).getId();
+		if(count != 0)
+		newId = this.getEmployees().get(count - 1).getId() ;
 		Employee emp = new Employee(newId + 1, employeeDTO);
 		employeeRepository.save(emp);
 		return employeeRepository.findById(newId + 1)
