@@ -39,6 +39,10 @@ public class EmployeeServiceIMPL implements IEmployeeService{
 		Employee employee = this.getEmployeeById(id);
 		employee.setName(employeeDTO.getName());
 		employee.setSalary(employeeDTO.getSalary());
+		employee.setGender(employeeDTO.getGender());
+		employee.setNote(employeeDTO.getNote());
+		employee.setStartDate(employeeDTO.getStartDate());
+		employee.setDepartment(employeeDTO.getDepartment());
 		employeeRepository.save(employee);
 		return employeeRepository.findById(id).get();
 	}
